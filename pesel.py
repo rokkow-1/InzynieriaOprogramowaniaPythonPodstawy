@@ -29,9 +29,17 @@ def verify_pesel(pesel: str) -> int:
         int: 1 jeśli numer jest poprawny, 0 jeśli nie.
     """
     ### TUTAJ PODAJ ROZWIĄZANIE ZADANIA
-
+    pesel_input = input("Podaj numer PESEL: ")
+    weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3]
+    suma = 0
+    for i in range(10):
+        suma += int(pesel_input[i]) * weights[i]
+    check = (10 - (suma % 10)) % 10
     ### return 0 - powinno być zmienione i zwrócić prawdziwy wynik (zgodny z oczekiwaniami)
-    return 0
+    if check == int(pesel_input[10]):
+        return 1
+    else:
+        return 0
 
 
 # Przykładowe wywołanie:

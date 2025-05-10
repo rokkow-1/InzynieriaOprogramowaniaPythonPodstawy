@@ -32,7 +32,8 @@ Wymagania:
 - Obliczenie liczby wystąpień danego wyrazu w każdym dokumencie.
 - Dla każdego zapytania, zwrócenie posortowanej listy indeksów dokumentów.
 """
-
+import string
+from collections import Counter
 
 def index_documents(documents: list[str], queries: list[str]) -> list[list[int]]:
     """
@@ -48,9 +49,25 @@ def index_documents(documents: list[str], queries: list[str]) -> list[list[int]]
         list[list[int]]: Lista wyników dla kolejnych zapytań.
     """
     ### TUTAJ PODAJ ROZWIĄZANIE ZADANIA
+    word_counts = []
+    for doc in documents:
+        doc = doc.lower()
+        for znak in string.punctuation:
+            doc = doc.replace(znak, '')
+        words = doc.split()
+        word_counts.append(Counter(words))
 
+    results = []
+    for query in queries:
+        query = query.lower()
+        matches = []
+        for i, count in enumerate(word_counts):
+            if query in count:
+                matches.append((count[query], i))
+        matches.sort(key=lambda x: (-x[0], -x[1]))
+        results.append([i for _, i in matches])
     ### return [[]] - powinno być zmienione i zwrócić prawdziwy wynik (zgodny z oczekiwaniami)
-    return [[]]
+    return results
 
 
 # Przykładowe wywołanie:
